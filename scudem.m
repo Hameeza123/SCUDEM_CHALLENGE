@@ -4,16 +4,16 @@ alpha = 0.05;    % Influence of mood and messaging on behavioral intention (B)
 kappa = 0.15;    % Decay rate of recall (R)
 gamma = 0.2;     % Influence of persuasiveness on behavioral intention (B)
 eta = 0.3;       % Effect of mood on persuasiveness (P)
-tau = 10;        % Time constant for decay of behavioral intention (B)
+tau = 20;        % Time constant for decay of behavioral intention (B)
 epsilon = 0.1;   % Efficacy contribution factor (not used in this new formula)
 delta = 0.05;    % Efficacy decay rate (not used in this new formula)
 
 sigmoid = @(x) 1 ./ (1 + exp(-x));  % Define the sigmoid function
 
 % Initial conditions
-P0 = 0.9;        % Initial persuasiveness (P)
-R0 = 0.9;        % Initial recall (R)
-B0 = 0.9;        % Initial behavioral intention (B)
+P0 = 0.5;        % Initial persuasiveness (P)
+R0 = 0.7;        % Initial recall (R)
+B0 = 0.6;        % Initial behavioral intention (B)
 Q0 = sqrt(B0^2 + R0^2 + P0^2);  % Initial efficacy (Q) based on B, R, P
 
 % Time span for the simulation
@@ -35,9 +35,16 @@ for i = 1:length(m_values)
         % Current values of m (messaging) and mu (mood)
         m = m_values(i);
         mu = mu_values(j);  
-        %m = m*sigmoid(1.5*m)
+        if m  < 0
+            m = 2*sigmoid(1.2*m)-1
+        else
+            m = 2*sigmoid(m)-1
+        end
+        
+
+        %m = sigmoid(m)-1/2
         ode_system = @(t, y) [
-            -lambda * y(1) + eta * mu * m^2;           % dP/dt (persuasiveness)
+            -lambda * y(1) + eta * mu * abs(m);           % dP/dt (persuasiveness)
             -kappa * y(2) + alpha * mu * m^2;        % dR/dt (recall)
             -alpha * exp(-t / tau) * y(3) + gamma * mu * m^2 * y(1);  % dB/dt (behavioral intention)
             0;  % dQ/dt (no longer needed as Q is directly calculated)
@@ -67,7 +74,7 @@ figure;
 
 % Bifurcation Diagram: Behavioral Intention (B)
 subplot(2, 2, 1);
-imagesc(mu_values, m_values, final_B');
+imagesc(mu_values, m_values, final_B);
 colorbar;
 xlabel('Mood (\mu)');
 ylabel('Messaging Strength (m)');
@@ -76,7 +83,7 @@ axis xy;
 
 % Bifurcation Diagram: Efficacy (Q)
 subplot(2, 2, 2);
-imagesc(mu_values, m_values, final_Q');
+imagesc(mu_values, m_values, final_Q);
 colorbar;
 xlabel('Mood (\mu)');
 ylabel('Messaging Strength (m)');
@@ -85,7 +92,7 @@ axis xy;
 
 % Bifurcation Diagram: Persuasiveness (P)
 subplot(2, 2, 3);
-imagesc(mu_values, m_values, final_P');
+imagesc(mu_values, m_values, final_P);
 colorbar;
 xlabel('Mood (\mu)');
 ylabel('Messaging Strength (m)');
@@ -94,7 +101,7 @@ axis xy;
 
 % Bifurcation Diagram: Recall (R)
 subplot(2, 2, 4);
-imagesc(mu_values, m_values, final_R');
+imagesc(mu_values, m_values, final_R);
 colorbar;
 xlabel('Mood (\mu)');
 ylabel('Messaging Strength (m)');
