@@ -1,0 +1,127 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{\Large\textbf{SCUDEM Challenge: Analysis of the Impact of Mood and Messaging on Public Health Advocacy Initiatives}}
+\author{
+    Arnav Garg \and Hamza Hussain \and Pankaj Patil \\
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    [Your abstract goes here. Briefly summarize your problem, approach, and key findings.]
+\end{abstract}
+
+\section{Introduction}
+The efficacy of an advertisement in changing behavioral intentions, recall, and persuasiveness depends on several factors, such as the viewer’s mood, the strength and tone of the advertisement, and the time that has elapsed since the ad was seen. This model aims to quantify how these variables interact over time and influence the viewer’s persuasiveness, behavioral intention, and recall of the ad’s content. By modeling these factors with a system of ordinary differential equations (ODEs), we can better understand how changes in mood, messaging, and time affect efficacy—the overall impact of the ad.
+
+\section{Problem Statement}
+We aim to model the dynamics of persuasion and recall after viewing an advertisement, incorporating the following:
+\begin{enumerate}
+    \item How mood (\( \mu \)) affects behavior, persuasiveness, and recall.
+    \item The role of messaging (\( m \)) in shaping behavioral intentions and recall, with both positive and negative messaging effects.
+    \item The decay of effectiveness over time, as viewer engagement with the ad diminishes.
+    \item The efficacy of the ad, which depends on the rate of change of behavioral intention, persuasiveness, and recall.
+\end{enumerate}
+
+\section{Mathematical Model}
+This section presents the mathematical formulation of the model, defining the key variables, parameters, and the system of differential equations governing the behavior of the system.
+
+\subsection{Assumptions}
+\begin{enumerate}
+    \item The efficacy of the advertisement depends on three key factors: persuasiveness (\( P \)), recall (\( R \)), and behavioral intention (\( B \)). The efficacy \( \varepsilon(t) \) is modeled as:
+    \[
+    \varepsilon(t) = \sqrt{P^2 + R^2 + B^2}
+    \]
+    This combined measure reflects the overall impact of the ad on the viewer's behavior and memory.
+    
+    \item Persuasiveness \( P \) represents how convincing the advertisement is to the viewer, on a scale from 0 to 1, with 1 being most persuasive.
+
+    \item Recall \( R \) represents the viewer's ability to remember the ad's content and its associated messages, with values between 0 and 1.
+
+    \item Behavioral Intention \( B \) represents the viewer's intention to take action (e.g., getting vaccinated), which decays over time as the ad's influence weakens.
+
+    \item The decay of behavioral intention over time is governed by an exponential decay, where the rate of decay depends on time and the messaging strength.
+    
+    \item Mood (\( \mu \)) influences all three factors. It can enhance or reduce the impact of the advertisement depending on whether the mood is positive or negative.
+
+    \item Time \( t \) influences recall and behavioral intention, where both generally decrease as time progresses.
+    
+    \item The model assumes that over time, the persuasiveness of the ad diminishes, and recall weakens, causing behavioral intention to decay. However, the rate of decay can be slowed down by high mood and strong messaging.
+
+    \item Efficacy of media surrounding a particular vaccine as defined in this paper will have an immediate effect on the rate of vaccination of this vaccine. In turn, the rate of vaccination has direct implications in global markets, specifically that of biotech industries.
+
+\end{enumerate}
+
+\subsection{Variables and Parameters}
+\subsubsection{Independent Variables}
+\begin{enumerate}
+    \item Mood \( \mu \): A value representing the participant's mood, which affects their persuasiveness, recall, and behavioral intention. It is assumed to be between \( 0 \) and \( 1 \).
+    \item Messaging \( m \): The strength of the advertisement's messaging, ranging from \( -\beta \) (very negative) to \( \beta \) (very positive).
+    \item Time \( t \): The time elapsed since the viewer was first exposed to the advertisement.
+\end{enumerate}
+
+\subsubsection{Dependent Variables}
+\begin{enumerate}
+    \item Recall \( R \): The viewer’s ability to remember the symptoms or messages from the ad.
+    \item Persuasiveness \( P \): A measure of how convincing the advertisement is on a scale from 0 to 1.
+    \item Behavioral Intention \( B(t) \): The viewer’s intention to take action (e.g., get vaccinated).
+\end{enumerate}
+
+\subsubsection{Parameters}
+\begin{enumerate}
+    \item \( \alpha, \beta, \kappa, \eta \): Parameters controlling the strength of various interactions in the model. These may include rates of decay, the influence of mood, and how strongly messaging affects behavioral intention and recall.
+    \item \( \gamma \): A parameter that weights the influence of recall on behavioral intention decay.
+\end{enumerate}
+
+\subsection{Equations}
+The model is based on a system of ODEs describing how the dependent variables change over time. The equations below capture how persuasiveness, recall, and behavioral intention evolve over time.
+
+\begin{eqnarray}
+\frac{dP}{dt} &=& -\lambda P + \eta \mu m \\
+\frac{dR}{dt} &=& -\kappa R + \alpha \mu m^2 \\
+\frac{dB}{dt} &=& -\alpha e^{-t/\tau} B + \gamma \mu m^2 P \\
+\frac{dQ}{dt} &=& \epsilon
+\end{eqnarray}
+TODO: connect dQ/dt to global vaccination/real world stuff*
+
+Where:
+- \( \frac{dP}{dt} \): Rate of change of persuasiveness over time. Persuasiveness decays naturally over time (with rate \( \lambda \)), but it is also enhanced by mood and strong messaging.
+- \( \frac{dR}{dt} \): Rate of change of recall. Recall also decays over time (with rate \( \kappa \)) but is influenced by both mood and the intensity of the ad's message.
+- \( \frac{dB}{dt} \): Rate of change of behavioral intention. Behavioral intention decays over time with a time constant \( \tau \), but the decay is modulated by mood, messaging strength, and persuasiveness.
+
+\subsection{Efficacy Metric}
+The efficacy \( \varepsilon(t) \) of the advertisement is modeled as:
+
+\[
+\varepsilon(t) = \sqrt{P^2 + R^2 + B^2}
+\]
+
+This formulation captures the combined impact of the three factors: persuasiveness, recall, and behavioral intention. Higher values of any of these factors lead to greater overall efficacy.
+
+\section{Analysis}
+We will analyze the model both qualitatively and quantitatively:
+- First, we explore the qualitative behavior of the system by analyzing the system's stability, equilibrium points, and decay over time.
+- Next, numerical simulations are performed using appropriate initial conditions and parameter values to explore the dynamics of the system, visualize the time evolution of the dependent variables, and interpret the results in the context of ad efficacy.
+
+\section{Results}
+[Insert any numerical simulations, graphs, and analysis of the results.]
+
+\section{Discussion}
+The results indicate how mood, messaging, and time interact to influence the persuasiveness, recall, and behavioral intention over time. We discuss the implications of these results and how they inform advertising strategies.
+
+\section{Conclusion}
+This model offers a framework for understanding the dynamics of advertisement efficacy in terms of behavioral change, persuasiveness, and recall. Further refinements can be made by incorporating more complex dependencies or extending the model to account for other variables such as demographic factors or external influences.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
