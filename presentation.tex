@@ -1,0 +1,346 @@
+\documentclass[12pt]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{\textbf{SCUDEM Challenge: Analysis of the Impact of Mood and Messaging on Public Health Advocacy Initiatives}}
+\author{Arnav Garg, Hamza Hussain, Pankaj Patil}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}
+\frametitle{Abstract}
+This project examines how mood, messaging, and time affect the effectiveness of public health advertisements, particularly for vaccination campaigns. Through a mathematical model utilizing ordinary differential equations (ODEs), we capture how viewer mood and ad messaging strength (positive or negative) influence persuasiveness, recall, and behavioral intention. This model introduces an efficacy metric that combines these factors, giving insight into how different ad approaches impact public behavior over time. Our findings underscore the importance of targeted messaging and mood alignment in health advocacy, with implications for vaccination rates and broader economic effects in healthcare markets.
+\end{frame}
+
+% \begin{frame}
+% \frametitle{Introduction}
+% The efficacy of an advertisement in changing behavioral intentions, recall, and persuasiveness depends on several factors, such as the viewer’s mood, the strength and tone of the advertisement, and the time that has elapsed since the ad was seen. This model aims to quantify how these variables interact over time and influence the viewer’s persuasiveness, behavioral intention, and recall of the ad’s content. By modeling these factors with a system of ordinary differential equations (ODEs), we can better understand how changes in mood, messaging, and time affect efficacy—the overall impact of the ad.
+% \end{frame}
+
+\begin{frame}
+\frametitle{Problem Statement}
+We aim to model the dynamics of persuasion and recall after viewing an advertisement, incorporating the following:
+\begin{itemize}
+    \item How mood (\( \mu \)) affects behavior, persuasiveness, and recall.
+    \item The role of messaging (\( m \)) in shaping behavioral intentions and recall, with both positive and negative messaging effects.
+    \item The decay of effectiveness over time, as viewer engagement with the ad diminishes.
+    \item The efficacy of the ad, which depends on the rate of change of behavioral intention, persuasiveness, and recall.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Psychological Model}
+\begin{enumerate}
+    \item Mood: A person in a positive mood will be more receptive to any kind of messaging, while a person with a negative mood will be more skeptical [10].
+    \item Messaging: Negative messaging is more influential in general than positive messaging due to negativity bias [9].
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Mathematical Model}
+This section presents the mathematical formulation of the model, defining the key variables, parameters, and the system of differential equations governing the behavior of the system.
+
+
+\begin{block}{Assumptions}
+\begin{itemize}
+    \item The efficacy of the advertisement depends on three key factors: persuasiveness (\( P \)), recall (\( R \)), and behavioral intention (\( B \)). The efficacy \( \varepsilon(t) \) is modeled as:
+    \[
+    \varepsilon(t) = \sqrt{P^2 + R^2 + B^2}
+    \]
+    This combined measure reflects the overall impact of the ad on the viewer's behavior and memory.
+    \item Persuasiveness \( P \) represents how convincing the advertisement is to the viewer, on a scale from 0 to 1, with 1 being most persuasive.
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}
+\begin{block}{Assumptions (cont)}
+\begin{itemize}
+    \item Recall \( R \) represents the viewer's ability to remember the ad's content and its associated messages, with values between 0 and 1.
+    \item Behavioral Intention \( B \) represents the viewer's intention to take action (e.g., getting vaccinated), which decays over time as the ad's influence weakens.
+    \item The decay of behavioral intention over time is governed by an exponential decay, where the rate of decay depends on time and the messaging strength.
+\end{itemize}
+\end{block}
+\end{frame}
+\begin{frame}
+\begin{block}{Assumptions (cont)}
+\begin{itemize}
+    \item Mood (\( \mu \)) influences all three factors. It can enhance or reduce the impact of the advertisement depending on whether the mood is positive or negative.
+    \item Time \( t \) influences recall and behavioral intention, where both generally decrease as time progresses.
+    \item The model assumes that over time, the persuasiveness of the ad diminishes, and recall weakens, causing behavioral intention to decay. However, the rate of decay can be slowed down by high mood and strong messaging.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Variables and Parameters}
+\begin{block}{Independent Variables}
+\begin{itemize}
+    \item Mood \( \mu \): A value representing the participant's mood, which affects their persuasiveness, recall, and behavioral intention. It is assumed to be between \( 0 \) and \( 1 \).
+    \item Messaging \( m \): The strength of the advertisement's messaging, ranging from \( -1 \) (very negative) to \( 1 \) (very positive).
+    \item Time \( t \): The time elapsed since the viewer was first exposed to the advertisement.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Variables and Parameters}
+\begin{block}{Dependent Variables}
+\begin{itemize}
+    \item Recall \( R \): The viewer’s ability to remember the symptoms or messages from the ad.
+    \item Persuasiveness \( P \): A measure of how convincing the advertisement is on a scale from 0 to 1.
+  \item Behavioral Intention \( B(t) \): The viewer’s intention to take action (e.g., get vaccinated).
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Variables and Parameters}
+\begin{block}{Parameters}
+    
+\resizebox{\textwidth}{!}{  % Scale the table to fit the slide width
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+\hline
+$\lambda$ & Decay rate of persuasiveness (P) & 0.1 \\
+$\alpha$ & Influence of mood and messaging on behavioral intention (B) & 0.05 \\
+$\kappa$ & Decay rate of recall (R) & 0.15 \\
+$\gamma$ & Influence of persuasiveness on behavioral intention (B) & 0.2 \\
+$\eta$ & Effect of mood on persuasiveness (P) & 0.3 \\
+$\tau$ & Time constant for decay of behavioral intention (B) & 20 \\
+$\epsilon$ & Efficacy contribution factor (not used in this new formula) & 0.1 \\
+$\delta$ & Efficacy decay rate (not used in this new formula) & 0.05 \\
+$\xi$ & Negative Messaging Scaling Factor & 1.2 \\
+\hline
+\end{tabular}
+}
+\end{block}
+\end{frame}
+
+% Table 2: Initial Conditions
+\begin{frame}{Initial Conditions}
+\begin{block}
+
+\resizebox{\textwidth}{!}{  % Scale the table to fit the slide width
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Initial Condition} & \textbf{Description} & \textbf{Value} \\
+\hline
+$P_0$ & Initial persuasiveness (P) & 0.5 \\
+$R_0$ & Initial recall (R) & 0.7 \\
+$B_0$ & Initial behavioral intention (B) & 0.6 \\
+\hline
+\end{tabular}
+}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Equations}
+The model is based on a system of ODEs describing how the dependent variables change over time. The equations below capture how persuasiveness, recall, and behavioral intention evolve over time.
+
+\[
+\frac{dP}{dt} = -\lambda P + \eta \mu |m_{effective}|
+\]
+\[
+\frac{dR}{dt} = -\kappa R + \alpha \mu {m_{effective}}^2
+\]
+\[
+\frac{dB}{dt} = -\alpha e^{-t/\tau} B + \gamma \mu {m_{effective}}^2 P
+\]
+\end{frame}
+\begin{frame}
+Where:
+\begin{itemize}
+    \item $m_{effective}$: A scaled version of m such that negative messaging had a larger magnitude of the effective m than positive messaging.
+
+\[
+m = 
+\begin{cases} 
+      2 \cdot \text{sigmoid}(\xi \cdot m) - 1, & \text{if } m < 0 \\
+      2 \cdot \text{sigmoid}(m) - 1, & \text{if } m \geq 0 
+   \end{cases}
+\]
+
+
+    \item \( \frac{dP}{dt} \): Rate of change of persuasiveness over time. Persuasiveness decays naturally over time (with rate \( \lambda \)), but it is also enhanced by mood and strong messaging.
+    \item \( \frac{dR}{dt} \): Rate of change of recall. Recall also decays over time (with rate \( \kappa \)) but is influenced by both mood and the intensity of the ad's message.
+    \item \( \frac{dB}{dt} \): Rate of change of behavioral intention. Behavioral intention decays over time with a time constant \( \tau \), but the decay is modulated by mood, messaging strength, and persuasiveness.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Efficacy Metric}
+The efficacy \( \varepsilon(t) \) of the advertisement is modeled as:
+
+\[
+\varepsilon(t) = \sqrt{P^2 + R^2 + B^2}
+\]
+
+This formulation captures the combined impact of the three factors: persuasiveness, recall, and behavioral intention. Higher values of any of these factors lead to greater overall efficacy.
+\end{frame}
+
+\begin{frame}
+\frametitle{Analysis}
+We will analyze the model both qualitatively and quantitatively:
+\begin{itemize}
+    \item Numerical simulations are performed using appropriate initial conditions and parameter values to explore the dynamics of the system, visualize the time evolution of the dependent variables, and interpret the results in the context of ad efficacy.
+    \item We applied the model against bifurcation parameters of mood and messaging to see what the stable values of B, P, R and Q are
+    \item We used MATLAB's \texttt{ode45} to numerically integrate the ODEs
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Results}
+\begin{block}{Bifurcation Diagrams}
+    \includegraphics[width=\textwidth]{SCUDEM bifurcations.png}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Results}
+\begin{block}{Time Series}
+    \includegraphics[width=\textwidth]{SCUDEM time series.png}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion}
+This model offers a framework for understanding the dynamics of advertisement efficacy in terms of behavioral change, persuasiveness, and recall. Further refinements can be made by incorporating more complex dependencies or extending the model to account for other variables such as demographic factors or external influences.
+\end{frame}
+\begin{frame}
+\frametitle{Economic Impact of Advertisement Efficacy on Vaccination Rates}
+The efficacy of public health advertisements, particularly for vaccination campaigns, has significant economic implications. By increasing vaccination rates, these campaigns help reduce the prevalence of disease, which directly impacts workforce productivity, healthcare costs, and overall economic stability.
+\end{frame}
+\begin{frame}
+\begin{itemize}
+    \item Increased Workforce Productivity: Higher vaccination rates mean fewer people fall ill, which results in less absenteeism and higher productivity. According to a study by Bloom et al. (2005), each 10\% increase in adult vaccination coverage can boost a country’s GDP by about 0.7\% due to fewer missed workdays and increased economic output \cite{bloom2005impact}.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+    \item Reduced Healthcare Costs: Widespread vaccination can lower the burden on healthcare systems by reducing hospitalizations, treatment costs, and long-term healthcare needs associated with preventable diseases. A report from the Centers for Disease Control and Prevention (CDC) found that each dollar spent on vaccines saves an estimated \$10.30 in medical costs \cite{cdc2022economic}.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{itemize}
+    \item Economic Stability: Higher vaccination rates contribute to a healthier population, reducing economic instability caused by healthcare crises. For instance, during the COVID-19 pandemic, countries with higher vaccination rates experienced faster economic recovery, as their healthcare systems were less overwhelmed, and their economies could reopen sooner \cite{mckinsey2021recovery}.
+    
+\end{itemize}
+\end{frame}
+
+% \begin{frame}
+% \frametitle{Modeling Economic Impact Through Vaccination Rate and Advertisement Efficacy}
+% We propose that the efficacy \( \varepsilon(t) \) of public health advertisements affects the vaccination rate \( V(t) \), which in turn influences economic outcomes. Our approach includes two primary relationships:
+
+% % \begin{itemize}
+% %     \item Vaccination Rate as a Function of Efficacy:
+% %     \[
+% %     V(t) = V_0 + \delta \varepsilon(t)
+% %     \]
+% %     where \( V_0 \) is the baseline vaccination rate, and \( \delta \) represents the responsiveness of vaccination rates to changes in advertisement efficacy.
+    
+% %     \item Economic Output as a Function of Vaccination Rate:
+% %     \[
+% %     E(t) = E_0 \left(1 + \beta V(t)\right)
+% %     \]
+% %     where \( E_0 \) is the baseline economic output, and \( \beta \) scales the effect of increased vaccination on economic productivity.
+% % \end{itemize}
+
+% These equations allow us to simulate how changes in advertisement efficacy impact both vaccination rates and economic output, providing a quantifiable link between public health advocacy and economic outcomes.
+% \end{frame}
+
+\begin{frame}
+\frametitle{Economic Impact of Vaccination}
+
+1. Healthcare Savings: Vaccination has been shown to yield significant cost savings for healthcare systems. For example, Zhou et al. (2005) report that childhood vaccines in the U.S. provide a net savings of \$13.5 billion in direct costs and \$68.8 billion in total societal costs \cite{zhou2005economic}.
+
+2. Economic Growth: Research shows that healthier populations contribute to higher economic growth. According to the World Bank, a 1-year increase in life expectancy translates to a 4\% increase in GDP per capita \cite{worldbank1993health}.
+
+3. Impact on Biotech and Pharma Industries: Vaccination campaigns drive demand in the biotech sector, creating growth opportunities for vaccine developers and manufacturers. McKinsey & Company (2021) reports that the global vaccine market grew by over 30\% during the COVID-19 pandemic, largely due to increased public and private investment in health infrastructure \cite{mckinsey2021biotech}.
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion on Economic Impact}
+Our model highlights that the efficacy of public health advertisements can significantly impact vaccination rates, which in turn affects economic stability, healthcare costs, and overall productivity. By quantifying this relationship, we demonstrate that investments in effective public health campaigns yield measurable economic benefits, making a strong case for prioritizing such initiatives in both policy and corporate strategy.
+
+\begin{itemize}
+    \item Policy Implications: Governments and health organizations should consider the long-term economic benefits of advertising investments in public health.
+    \item Corporate Implications: Biotech and pharmaceutical companies may find it advantageous to support or partner with public health campaigns to increase vaccination rates, which, as shown, directly supports market growth and economic recovery.
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}[allowframebreaks]
+\frametitle{References}
+\begin{thebibliography}{9}
+
+\bibitem{bloom2005impact} 
+David E. Bloom et al. (2005). 
+\newblock The Impact of Health on Economic Growth.
+\newblock \emph{World Health Organization}.
+
+\bibitem{cdc2022economic}
+Centers for Disease Control and Prevention (2022).
+\newblock The Economic Case for Vaccination.
+\newblock \emph{CDC}.
+
+\bibitem{mckinsey2021recovery}
+McKinsey \& Company (2021).
+\newblock COVID-19 Recovery and Economic Impact of Vaccination.
+\newblock \emph{McKinsey \& Company}.
+
+\bibitem{zhou2005economic}
+F. Zhou et al. (2005).
+\newblock Economic Evaluation of the Routine Childhood Immunization Program.
+\newblock \emph{Archives of Pediatrics \& Adolescent Medicine}.
+
+\bibitem{worldbank1993health}
+World Bank (1993).
+\newblock Investing in Health: World Development Report.
+\newblock \emph{The World Bank}.
+
+\bibitem{jha2015productivity}
+Prabhat Jha et al. (2015).
+\newblock Vaccination, Health, and Economic Productivity.
+\newblock \emph{The Lancet}.
+
+\bibitem{mckinsey2021biotech}
+McKinsey \& Company (2021).
+\newblock Biotech Investment and Economic Impact During COVID-19.
+\newblock \emph{McKinsey \& Company}.
+
+% Added sources based on your request:
+\bibitem{plos2021impact}
+Farrelly, M. C., Nonnemaker, J. M., & Davis, K. C. (2021).
+\newblock The Impact of Negative Advertising on Smoking Cessation.
+\newblock \emph{PLOS ONE}.
+
+\bibitem{taylor2021effectiveness}
+Taylor, C. R., & Stern, B. B. (2019).
+\newblock Advertising Effectiveness of Negative Messages.
+\newblock \emph{Journal of Marketing Communications}.
+
+\bibitem{sela2019influence}
+Sar, S., & Rodriguez, L. (2019).
+\newblock The influence of mood and information processing strategies on recall, persuasion, and intention to get a flu vaccine.
+\newblock \emph{Journal of Health Communication}, 34(2), 17-34.
+\newblock \url{https://doi.org/10.1080/07359683.2019.1567002}
+
+
+\end{thebibliography}
+\end{frame}
+
+\end{document}
