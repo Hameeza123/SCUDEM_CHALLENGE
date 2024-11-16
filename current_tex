@@ -89,7 +89,7 @@ The model is based on a system of ODEs describing how the dependent variables ch
 \frac{dP}{dt} &=& -\lambda P + \eta \mu m \\
 \frac{dR}{dt} &=& -\kappa R + \alpha \mu m^2 \\
 \frac{dB}{dt} &=& -\alpha e^{-t/\tau} B + \gamma \mu m^2 P \\
-\frac{dQ}{dt} &=& \epsilon
+\frac{dQ}{dt} &=& \iota \epsilon
 \end{eqnarray}
 TODO: connect dQ/dt to global vaccination/real world stuff*
 
@@ -120,6 +120,42 @@ The results indicate how mood, messaging, and time interact to influence the per
 
 \section{Conclusion}
 This model offers a framework for understanding the dynamics of advertisement efficacy in terms of behavioral change, persuasiveness, and recall. Further refinements can be made by incorporating more complex dependencies or extending the model to account for other variables such as demographic factors or external influences.
+
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Parameter} & \textbf{Description} \\
+\hline
+$\lambda$ & Decay rate of persuasiveness (P) \\
+$\alpha$ & Influence of mood and messaging on behavioral intention (B) \\
+$\kappa$ & Decay rate of recall (R) \\
+$\gamma$ & Influence of persuasiveness on behavioral intention (B) \\
+$\eta$ & Effect of mood on persuasiveness (P) \\
+$\tau$ & Time constant for decay of behavioral intention (B) \\
+$\epsilon$ & Efficacy contribution factor (not used in this new formula) \\
+$\delta$ & Efficacy decay rate (not used in this new formula) \\
+\hline
+\end{tabular}
+\caption{Model Parameters}
+\end{table}
+
+% Table 2: Initial Conditions
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Initial Condition} & \textbf{Value} \\
+\hline
+$P_0$ & 0.5 \\
+$R_0$ & 0.7 \\
+$B_0$ & 0.6 \\
+\hline
+\end{tabular}
+\caption{Initial Conditions}
+\end{table}
+
 
 \bibliographystyle{plain}
 \bibliography{references}
